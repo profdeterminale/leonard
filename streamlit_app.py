@@ -2,7 +2,8 @@ import streamlit as st
 import openai
 
 # Configurez votre clé API OpenAI
-openai.api_key = "VOTRE_API_KEY"
+import os
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Titre de l'application
 st.title("Mon ChatGPT Personnalisé")
