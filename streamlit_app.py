@@ -21,6 +21,8 @@ def chat_with_gpt(user_input):
     model="gpt-4",
     messages=st.session_state["messages"]
 )
+
+reply = response["choices"][0]["message"]["content"]
 reply = response["choices"][0]["message"]["content"]
         reply = response["choices"][0]["message"]["content"]
         st.session_state["messages"].append({"role": "assistant", "content": reply})
