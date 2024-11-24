@@ -16,22 +16,15 @@ if "messages" not in st.session_state:
 # Fonction pour envoyer des messages à l'API OpenAI
 def chat_with_gpt(user_input):
     # Ajouter l'entrée de l'utilisateur à la session
-    st.session_state["messages"].append({"role": "user", "content": user_input})
+st.session_state["messages"].append({"role": "user", "content": user_input})
+
+try:
+    # Appeler l'API OpenAI pour obtenir une réponse
+    response = openai.ChatCompletion.create(
+        model="gpt-4",  # Spécifiez le modèle à utiliser
+        messages=st.session_state["messages"]  # Historique des messages
+    )
     
-    try:
-        # Appeler l'API OpenAI pour obtenir une réponse
-        response = client.chat.completions.create(
-    messages=[
-        {
-            "role": "user",
-            "content": "Say this is a test",
-        }
-    ],
-    model="gpt-4o",
-)
-            messages=st.session_state["messages"]  # Historique des messages
-        )
-        
         # Extraire la réponse du chatbot
         reply = response["choices"][0]["message"]["content"]
         
