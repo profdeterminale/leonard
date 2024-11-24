@@ -20,8 +20,15 @@ def chat_with_gpt(user_input):
     
     try:
         # Appeler l'API OpenAI pour obtenir une réponse
-        response = openai.ChatCompletion.create(
-            model="gpt-4",  # Modèle à utiliser
+        response = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Say this is a test",
+        }
+    ],
+    model="gpt-4o",
+)
             messages=st.session_state["messages"]  # Historique des messages
         )
         
