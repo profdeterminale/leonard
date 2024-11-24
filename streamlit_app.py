@@ -2,26 +2,29 @@ import streamlit as st
 import openai
 
 # Configurez votre clé API OpenAI
-openai.api_key = "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"
+openai.api_key = "VOTRE_API_KEY"
 
 # Titre de l'application
-st.title("ChatGPT Team Chatbot")
-st.markdown("### Posez une question à votre chatbot éducatif !")
+st.title("Mon ChatGPT Personnalisé")
+st.markdown("Posez vos questions au chatbot.")
 
-# Initialisez la session
+# Initialisez la session pour stocker l'historique
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "system", "content": "Vous êtes un assistant éducatif amical."}]
+    st.session_state["messages"] = [{"role": "system", "content": "Vous êtes un assistant utile pour répondre aux questions."}]
 
 # Fonction pour envoyer des messages à l'API OpenAI
 def chat_with_gpt(user_input):
     st.session_state["messages"].append({"role": "user", "content": user_input})
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=st.session_state["messages"]
-    )
-    reply = response["choices"][0]["message"]["content"]
-    st.session_state["messages"].append({"role": "assistant", "content": reply})
-    return reply
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4",  # Assurez-vous d'avoir accès à GPT-4
+            messages=st.session_state["messages"]
+        )
+        reply = response["choices"][0]["message"]["content"]
+        st.session_state["messages"].append({"role": "assistant", "content": reply})
+        return reply
+    except Exception as e:
+        return f"Erreur avec l'API OpenAI : {str(e)}"
 
 # Interface utilisateur
 user_input = st.text_input("Entrez votre question :")
@@ -32,7 +35,7 @@ if st.button("Envoyer"):
     else:
         st.warning("Veuillez entrer une question.")
 
-# Historique des conversations
+# Afficher l'historique des messages
 if st.session_state["messages"]:
     st.markdown("### Historique des conversations :")
     for message in st.session_state["messages"]:
